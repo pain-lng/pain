@@ -1,0 +1,12 @@
+[submodule "pain-compiler"]
+	path = pain-compiler
+	url = ./pain-compiler
+[submodule "pain-lsp"]
+	path = pain-lsp
+	url = ./pain-lsp
+[submodule "pain-runtime"]
+	path = pain-runtime
+	url = ./pain-runtime
+[submodule "painpkg"]
+	path = painpkg
+	url = ./painpkg
