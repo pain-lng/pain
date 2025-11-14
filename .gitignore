@@ -1,5 +1,6 @@
 # Rust
 /target/
+**/target/
 **/*.rs.bk
 Cargo.lock
 
@@ -10,13 +11,24 @@ Cargo.lock
 *.swo
 *~
 
+# VS Code extension (only ignore build artifacts)
+pain-vscode/node_modules/
+pain-vscode/out/
+pain-vscode/*.vsix
+
 # OS
 .DS_Store
 Thumbs.db
 
 # Test files
 *.pain
+*.ll
 test.pain
+test_ops.pain
+hello.pain
+
+# Test directory
+.pain_test/
 
 # Dev docs and instructions
 .pain_dev_docs/
