@@ -117,8 +117,15 @@ This is a workspace containing multiple crates:
 
 ## Documentation
 
-- Standard library documentation: `pain doc --stdlib`
-- Generate documentation from source: `pain doc --input source.pain`
+Generate documentation from source code:
+
+```bash
+# Generate standard library documentation
+pain doc --stdlib
+
+# Generate documentation from a Pain source file
+pain doc --input source.pain
+```
 
 ## Benchmarks
 
