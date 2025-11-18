@@ -6,7 +6,7 @@
 	url = https://github.com/pain-lng/pain-lsp.git
 [submodule "pain-runtime"]
 	path = pain-runtime
-	url = ./pain-runtime
+	url = https://github.com/pain-lng/pain-runtime.git
 [submodule "painpkg"]
 	path = painpkg
 	url = ./painpkg
