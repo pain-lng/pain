@@ -113,7 +113,6 @@ This is a workspace containing multiple crates:
 - **pain-lsp** - Language Server Protocol server
 - **pain-runtime** - Runtime library (allocator, GC, object model)
 - **painpkg** - Package manager
-- **pain-vscode** - VS Code extension
 
 ## Documentation
 
