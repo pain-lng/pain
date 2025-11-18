@@ -11,10 +11,8 @@ Cargo.lock
 *.swo
 *~
 
-# VS Code extension (only ignore build artifacts)
-pain-vscode/node_modules/
-pain-vscode/out/
-pain-vscode/*.vsix
+# VS Code extension (has its own repository)
+pain-vscode/
 
 # OS
 .DS_Store
