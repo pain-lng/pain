@@ -30,12 +30,6 @@ hello.pain
 # Test directory
 .pain_test/
 
-# Dev docs and instructions
-.pain_dev_docs/
-TASKS.MD
-INSTALL.MD
-.cursor/
-
 # Build artifacts
 *.exe
 *.pdb
