@@ -1,6 +1,6 @@
 [submodule "pain-compiler"]
 	path = pain-compiler
-	url = ./pain-compiler
+	url = https://github.com/pain-lng/pain-compiler.git
 [submodule "pain-lsp"]
 	path = pain-lsp
 	url = ./pain-lsp
