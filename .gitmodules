@@ -9,4 +9,4 @@
 	url = https://github.com/pain-lng/pain-runtime.git
 [submodule "painpkg"]
 	path = painpkg
-	url = ./painpkg
+	url = https://github.com/pain-lng/painpkg.git
