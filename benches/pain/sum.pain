@@ -1,0 +1,12 @@
+
+fn sum(n: int) -> int:
+    var result = 0
+    var i = 0
+    var limit = n
+    while i <= limit:
+        result = result + i
+        i = i + 1
+    return result
+
+fn main() -> int:
+    return sum(10000)

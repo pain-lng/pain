@@ -20,6 +20,7 @@ Thumbs.db
 
 # Test files
 *.pain
+!benches/pain/*.pain
 *.ll
 test.pain
 test_ops.pain

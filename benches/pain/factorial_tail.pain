@@ -1,0 +1,11 @@
+fn fact_tail(n: int, acc: int) -> int:
+    if n <= 1:
+        return acc
+    return fact_tail(n - 1, n * acc)
+
+fn fact(n: int) -> int:
+    return fact_tail(n, 1)
+
+fn main() -> int:
+    return fact(15)
+
