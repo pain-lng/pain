@@ -3,7 +3,7 @@
 	url = https://github.com/pain-lng/pain-compiler.git
 [submodule "pain-lsp"]
 	path = pain-lsp
-	url = ./pain-lsp
+	url = https://github.com/pain-lng/pain-lsp.git
 [submodule "pain-runtime"]
 	path = pain-runtime
 	url = ./pain-runtime
