@@ -164,6 +164,8 @@ Contributions are welcome! Please see the project structure and submit pull requ
 - **Runtime**: [pain-runtime](https://github.com/pain-lng/pain-runtime)
 - **Package Manager**: [painpkg](https://github.com/pain-lng/painpkg)
 
+See [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) for the branch/CI workflow (main/develop/feature).
+
 ## Repository Topics & Branding
 
 - **GitHub topics** (add to `pain`, `pain-compiler`, `pain-runtime`):\
