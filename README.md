@@ -15,7 +15,7 @@ A modern, high-performance programming language designed for scientific computin
 - **Lexer and Parser** - Complete lexer and parser with indentation-based block parsing
 - **Type Checker** - Full type checking with type inference
 - **IR Generation** - Intermediate representation (IR) builder
-- **Code Generation** - LLVM IR and MLIR code generation
+- **Code Generation** - LLVM IR (stable) and MLIR (experimental IR dump) generation
 - **Optimizations** - SSA transformation, constant folding, dead code elimination
 - **Interpreter** - Runtime interpreter for testing and development
 
@@ -32,7 +32,7 @@ A modern, high-performance programming language designed for scientific computin
 ### Package Management
 - **painpkg** - Package manager with:
   - Dependency resolution (semver)
-  - Package installation from local/remote sources (file://, git://)
+  - Package installation from local sources (`file://`) and experimental Git sources (`git://`, `git+` clones only)
   - `pain.toml` dependency management
   - Local file-based registry with indexing
 
@@ -89,7 +89,7 @@ pain build --input example.pain --output example.ll
 # Build executable
 pain build --input example.pain --executable
 
-# Use MLIR backend
+# Use MLIR backend (experimental IR dump)
 pain build --input example.pain --backend mlir --output example.mlir
 ```
 
@@ -163,4 +163,15 @@ Contributions are welcome! Please see the project structure and submit pull requ
 - **LSP Server**: [pain-lsp](https://github.com/pain-lng/pain-lsp)
 - **Runtime**: [pain-runtime](https://github.com/pain-lng/pain-runtime)
 - **Package Manager**: [painpkg](https://github.com/pain-lng/painpkg)
+
+## Repository Topics & Branding
+
+- **GitHub topics** (add to `pain`, `pain-compiler`, `pain-runtime`):\
+  `programming-language`, `compiler`, `llvm`, `mlir`, `rust`, `ai`, `hpc`\
+  Example using GitHub CLI:\
+  `gh repo edit pain-lng/pain --add-topic programming-language --add-topic compiler ...`
+- **Logo guidance**
+  - Org avatar: square SVG/PNG at least **512×512 px** (transparent background preferred).
+  - README hero image: reuse the same asset at ~**200 px** width near the top (store in `assets/logo.svg` or `assets/logo.png`).
+  - Keep a monochrome variant handy for dark/light backgrounds if we publish on other portals.
 
