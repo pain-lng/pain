@@ -93,6 +93,15 @@ pain build --input example.pain --executable
 pain build --input example.pain --backend mlir --output example.mlir
 ```
 
+## Usage Examples
+
+- **Check**: `pain check --input path/to/file.pain` — parse + type-check without running.
+- **Format**: `pain format --input src/main.pain --stdout` — pretty-print to stdout or overwrite file.
+- **Run via interpreter**: `pain run --input examples/loop.pain`.
+- **Build optimized binary**: `pain build --input examples/app.pain --executable --backend llvm`.
+- **Generate docs**: `pain doc --input src/lib.pain --output docs/lib.md` or `pain doc --stdlib`.
+- **Package manager**: `painpkg init demo && painpkg install && painpkg run`.
+
 ### Example Program
 
 ```pain
@@ -116,14 +125,15 @@ This is a workspace containing multiple crates:
 
 ## Documentation
 
-Generate documentation from source code:
+- High-level guides live in [`docs/`](docs/):
+  - [`docs/quickstart.md`](docs/quickstart.md) – installation, running programs, `painpkg`.
+  - [`docs/stdlib.md`](docs/stdlib.md) – summary of built-in APIs.
+  - [`docs/examples.md`](docs/examples.md) – ready-to-run snippets.
+- Generate fresh API docs from source:
 
 ```bash
-# Generate standard library documentation
-pain doc --stdlib
-
-# Generate documentation from a Pain source file
-pain doc --input source.pain
+cargo run -p pain-compiler -- doc --stdlib
+cargo run -p pain-compiler -- doc --input source.pain
 ```
 
 ## Benchmarks
