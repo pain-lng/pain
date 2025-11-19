@@ -1,177 +1,66 @@
-name: Release
+name: build-release
 
 on:
   push:
+    branches:
+      - develop
+      - main
     tags:
-      - 'v*.*.*'
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Release version (e.g., v0.1.0)'
-        required: true
-        type: string
+      - 'v*'
+
+permissions:
+  contents: write
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  # Build release binaries for all platforms
-  build-release:
-    name: Build Release (${{ matrix.os }})
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - os: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-            artifact_name: pain-compiler-linux-x86_64
-            binary_ext: ''
+            artifact: pain-compiler-linux-x86_64.tar.gz
+            binary: pain-compiler
           - os: windows-latest
-            target: x86_64-pc-windows-msvc
-            artifact_name: pain-compiler-windows-x86_64
-            binary_ext: '.exe'
+            artifact: pain-compiler-windows-x86_64.zip
+            binary: pain-compiler.exe
           - os: macos-latest
-            target: x86_64-apple-darwin
-            artifact_name: pain-compiler-macos-x86_64
-            binary_ext: ''
-          - os: macos-latest
-            target: aarch64-apple-darwin
-            artifact_name: pain-compiler-macos-aarch64
-            binary_ext: ''
-    
+            artifact: pain-compiler-macos-x86_64.tar.gz
+            binary: pain-compiler
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          submodules: recursive
-      
-      - name: Install Rust toolchain
+          submodules: true
+
+      - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
-      
-      - name: Add target
-        run: rustup target add ${{ matrix.target }}
-      
-      - name: Cache cargo registry
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-${{ matrix.target }}-cargo-${{ hashFiles('**/Cargo.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.target }}-cargo-
-      
-      - name: Build release binaries
+
+      - name: Build release binary
+        run: cargo build --release -p pain-compiler
+
+      - name: Package (Unix)
+        if: runner.os != 'Windows'
         run: |
-          cargo build --release --target ${{ matrix.target }} --package pain-compiler
-          cargo build --release --target ${{ matrix.target }} --package pain-lsp
-          cargo build --release --target ${{ matrix.target }} --package painpkg
-      
-      - name: Prepare artifacts
-        shell: bash
+          tar -czf ${{ matrix.artifact }} -C target/release ${{ matrix.binary }}
+
+      - name: Package (Windows)
+        if: runner.os == 'Windows'
         run: |
-          mkdir -p release-artifacts
-          if [ "${{ matrix.os }}" == "windows-latest" ]; then
-            cp target/${{ matrix.target }}/release/pain-compiler.exe release-artifacts/
-            cp target/${{ matrix.target }}/release/pain-lsp.exe release-artifacts/
-            cp target/${{ matrix.target }}/release/painpkg.exe release-artifacts/
-          else
-            cp target/${{ matrix.target }}/release/pain-compiler release-artifacts/
-            cp target/${{ matrix.target }}/release/pain-lsp release-artifacts/
-            cp target/${{ matrix.target }}/release/painpkg release-artifacts/
-          fi
-      
-      - name: Upload artifacts
+          Compress-Archive -Path "target\release\${{ matrix.binary }}" -DestinationPath "${{ matrix.artifact }}"
+
+      - name: Upload artifact (branches)
+        if: github.ref_type != 'tag'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.artifact_name }}
-          path: release-artifacts/
-          retention-days: 30
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.artifact }}
 
-  # Create GitHub release
-  create-release:
-    name: Create Release
-    needs: build-release
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      
-      - name: Get version from tag
-        id: get_version
-        run: |
-          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            VERSION="${{ github.event.inputs.version }}"
-          else
-            VERSION="${GITHUB_REF#refs/tags/}"
-          fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Version: $VERSION"
-      
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-      
-      - name: Install zip (if needed)
-        run: |
-          if command -v zip &> /dev/null; then
-            echo "zip already installed"
-          else
-            sudo apt-get update && sudo apt-get install -y zip
-          fi
-      
-      - name: Prepare release assets
-        shell: bash
-        run: |
-          mkdir -p release-assets
-          for dir in artifacts/*/; do
-            if [ ! -d "$dir" ]; then
-              continue
-            fi
-            platform=$(basename "$dir")
-            mkdir -p "release-assets/$platform"
-            cp "$dir"/* "release-assets/$platform/" 2>/dev/null || true
-            cd "release-assets/$platform"
-            if [[ "$platform" == *"windows"* ]]; then
-              zip -r "../${platform}.zip" . 2>/dev/null || true
-            else
-              tar -czf "../${platform}.tar.gz" . 2>/dev/null || true
-            fi
-            cd ../..
-          done
-      
-      - name: Create GitHub Release
+      - name: Upload release asset (tags)
+        if: github.ref_type == 'tag'
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.get_version.outputs.version }}
-          name: Release ${{ steps.get_version.outputs.version }}
-          body: |
-            ## Release ${{ steps.get_version.outputs.version }}
-            
-            ### Binaries
-            
-            Download the appropriate binary for your platform:
-            
-            - **Linux (x86_64)**: `pain-compiler-linux-x86_64.tar.gz`
-            - **Windows (x86_64)**: `pain-compiler-windows-x86_64.zip`
-            - **macOS (x86_64)**: `pain-compiler-macos-x86_64.tar.gz`
-            - **macOS (ARM64)**: `pain-compiler-macos-aarch64.tar.gz`
-            
-            ### Installation
-            
-            Extract the archive and add the binaries to your PATH.
-            
-            ### Changes
-            
-            See the [changelog](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details.
-          files: release-assets/*.tar.gz release-assets/*.zip
-          draft: false
-          prerelease: ${{ contains(steps.get_version.outputs.version, '-') }}
+          files: ${{ matrix.artifact }}
