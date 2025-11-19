@@ -43,7 +43,7 @@ A modern, high-performance programming language designed for scientific computin
 ### Standard Library
 - **Math functions**: `abs`, `min`, `max`, `sqrt`, `pow`, `sin`, `cos`, `floor`, `ceil`
 - **String functions**: `len`, `concat`, `substring`, `contains`, `starts_with`, `ends_with`, `trim`, `to_int`, `to_float`, `to_string`
-- **List/Array functions**: `len`, `push`, `pop`
+- **List/Array functions**: `len` (indexing and literals supported)
 - **I/O functions**: `print`
 
 ## Installation
@@ -106,7 +106,7 @@ pain build --input example.pain --backend mlir --output example.mlir
 
 ```pain
 fn main():
-    print("Hello, Pain!")
+    print("I love Pain!")
     
     let x = 10
     let y = 20

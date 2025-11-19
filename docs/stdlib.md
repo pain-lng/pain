@@ -47,12 +47,58 @@ fn normalize(username: str) -> str:
 
 ## Collections
 
+### Lists and Arrays
+
+Lists (`list[T]`) are dynamic, growable collections. Arrays (`array[T]`) are fixed-size collections (currently implemented similarly to lists in the runtime).
+
 | Function | Signature | Description |
 | --- | --- | --- |
-| `len` | `fn len(items: list[dynamic]) -> int` | Works for lists |
-| `len` | `fn len(items: array[dynamic]) -> int` | Works for arrays |
+| `len` | `fn len(items: list[dynamic]) -> int` | Returns the length of a list |
+| `len` | `fn len(items: array[dynamic]) -> int` | Returns the length of an array |
 
-Currently mutation helpers (`push`, `pop`) are wired in the runtime but not yet exposed through `StdlibFunction`; add them here once implemented.
+**List/Array Literals:**
+```pain
+let numbers = [1, 2, 3, 4, 5]  # list[int]
+let names = ["Alice", "Bob"]    # list[str]
+```
+
+**Indexing:**
+```pain
+let first = numbers[0]          # Access element at index
+numbers[0] = 10                 # Modify element (if mutable)
+```
+
+**Note:** Mutation helpers (`push`, `pop`) are recognized by the type checker but not yet fully implemented in stdlib. They will be added in a future release.
+
+## Classes and Objects
+
+Classes are user-defined types with fields and methods. They are part of the language syntax, not stdlib functions.
+
+**Class Definition:**
+```pain
+class Point:
+    let x: int
+    let y: int
+    
+    fn distance() -> float64:
+        return sqrt(x * x + y * y)
+```
+
+**Object Creation:**
+```pain
+let p = new Point(10, 20)  # Create instance
+let x = p.x                 # Access field
+p.x = 30                    # Modify field (if mutable)
+let d = p.distance()        # Call method
+```
+
+**Class Features:**
+- Fields: typed member variables (`let name: type`)
+- Methods: functions associated with the class
+- Constructors: use `new ClassName(...)` syntax
+- `self` keyword: reference to the current instance in methods
+
+See [`examples.md`](examples.md) for complete class examples.
 
 ## I/O
 

@@ -3,11 +3,11 @@
 Use these snippets as starting points for demos, regression tests, or onboarding new users.  
 Every example is self-contained; copy into `examples/*.pain` and run with `pain-compiler run`.
 
-## 1. Hello, Pain
+## 1. I love Pain
 
 ```pain
 fn main():
-    print("Hello, Pain!")
+    print("I love Pain!")
 ```
 
 Run:
@@ -67,7 +67,24 @@ fn main() -> int:
 
 Shows class fields, methods, and constructors.
 
-## 4. Full Pipeline Smoke Test
+## 4. Lists and Arrays
+
+```pain
+fn main() -> int:
+    let numbers = [1, 2, 3, 4, 5]  # list[int]
+    let sum = 0
+    let i = 0
+    
+    while i < len(numbers):
+        sum = sum + numbers[i]
+        i = i + 1
+    
+    return sum
+```
+
+Demonstrates list literals, indexing, and iteration.
+
+## 5. Full Pipeline Smoke Test
 
 ```pain
 fn sum(n: int) -> int:
@@ -92,7 +109,7 @@ pain-compiler build --input examples/sum.pain --backend llvm --output sum.ll
 pain-compiler build --input examples/sum.pain --backend mlir --output sum.mlir
 ```
 
-## 5. painpkg Workspace
+## 6. painpkg Workspace
 
 ```bash
 painpkg init demo_app
