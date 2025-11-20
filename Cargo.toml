@@ -20,7 +20,8 @@ lalrpop = "0.20"
 lalrpop-util = "0.20"
 
 # LLVM backend (optional, requires LLVM installation)
-# inkwell = { version = "0.4", default-features = false, features = ["llvm11-0"] }
+# For LLVM 21, we use llvm-sys directly (inkwell only supports up to LLVM 18)
+llvm-sys = "211"
 
 # LSP
 tower-lsp = "0.20"
