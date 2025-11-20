@@ -18,6 +18,8 @@ A modern, high-performance programming language designed for scientific computin
 - **Code Generation** - LLVM IR (stable) and MLIR (experimental IR dump) generation
 - **Optimizations** - SSA transformation, constant folding, dead code elimination
 - **Interpreter** - Runtime interpreter for testing and development
+- **JIT Compilation** - Runtime code generation with LLVM ORC (optional, requires LLVM 21+)
+- **REPL** - Interactive shell with command history and debug commands
 
 ### Developer Tools
 - **LSP Server** - Language Server Protocol implementation with:
@@ -98,6 +100,7 @@ pain build --input example.pain --backend mlir --output example.mlir
 - **Check**: `pain check --input path/to/file.pain` — parse + type-check without running.
 - **Format**: `pain format --input src/main.pain --stdout` — pretty-print to stdout or overwrite file.
 - **Run via interpreter**: `pain run --input examples/loop.pain`.
+- **REPL**: `pain repl` — interactive shell with history and debug commands (`:vars`, `:funcs`, `:classes`).
 - **Build optimized binary**: `pain build --input examples/app.pain --executable --backend llvm`.
 - **Generate docs**: `pain doc --input src/lib.pain --output docs/lib.md` or `pain doc --stdlib`.
 - **Package manager**: `painpkg init demo && painpkg install && painpkg run`.
@@ -129,6 +132,7 @@ This is a workspace containing multiple crates:
   - [`docs/quickstart.md`](docs/quickstart.md) – installation, running programs, `painpkg`.
   - [`docs/stdlib.md`](docs/stdlib.md) – summary of built-in APIs.
   - [`docs/examples.md`](docs/examples.md) – ready-to-run snippets.
+  - [`docs/JIT_SETUP.md`](docs/JIT_SETUP.md) – JIT compilation setup guide.
 - Generate fresh API docs from source:
 
 ```bash
