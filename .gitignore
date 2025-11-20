@@ -15,6 +15,9 @@ Cargo.lock
 # VS Code extension (has its own repository)
 pain-vscode/
 
+# Pain registry (has its own repository)
+pain-registry/
+
 # OS
 .DS_Store
 Thumbs.db
