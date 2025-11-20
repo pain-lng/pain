@@ -32,6 +32,7 @@ Artifacts live in `target/{debug,release}`. On Windows, binaries end with `.exe`
 
 | Task | Command |
 | --- | --- |
+| Interactive REPL | `pain repl` |
 | Interpret & print result | `pain run --input path/to/app.pain` |
 | Build IR / executable | `pain build --input app.pain [--backend mlir|llvm] [--executable]` |
 | Type-check only | `pain check --input app.pain` |
@@ -58,7 +59,36 @@ pain run --input examples/hello.pain
 cargo run -p pain-compiler -- run --input examples/hello.pain
 ```
 
-## 5. Build & Optimize
+## 5. Interactive REPL
+
+Start the interactive REPL for quick testing:
+
+```bash
+pain repl
+# or during development:
+cargo run -p pain-compiler -- repl
+```
+
+REPL features:
+- Multi-line input support
+- Command history (persisted to `~/.pain/repl_history.txt`)
+- Debug commands:
+  - `:vars` - show all variables
+  - `:funcs` - show all functions
+  - `:classes` - show all classes
+
+Example session:
+```pain
+>>> let x = 10
+>>> let y = 20
+>>> x + y
+30
+>>> :vars
+x: int = 10
+y: int = 20
+```
+
+## 6. Build & Optimize
 
 ```bash
 # Generate LLVM IR
@@ -68,7 +98,7 @@ pain-compiler build --input examples/hello.pain --backend llvm --output hello.ll
 pain-compiler build --input examples/loop.pain --opt-level 2
 ```
 
-## 6. Package Management (`painpkg`)
+## 7. Package Management (`painpkg`)
 
 Initialize a project:
 
@@ -90,7 +120,7 @@ Install dependencies:
 cargo run -p painpkg -- install
 ```
 
-## 7. Lint, Test, Benchmark
+## 8. Lint, Test, Benchmark
 
 ```bash
 # Lint compiler code
@@ -103,7 +133,7 @@ cargo test -p pain-compiler --test integration_test
 cargo bench
 ```
 
-## 8. Next Steps
+## 9. Next Steps
 
 - Explore API details in [`stdlib.md`](stdlib.md).
 - Copy ready-to-run snippets from [`examples.md`](examples.md).
