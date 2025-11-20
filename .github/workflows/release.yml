@@ -22,14 +22,14 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            artifact: pain-compiler-linux-x86_64.tar.gz
-            binary: pain-compiler
+            artifact: pain-linux-x86_64.tar.gz
+            binary: pain
           - os: windows-latest
-            artifact: pain-compiler-windows-x86_64.zip
-            binary: pain-compiler.exe
+            artifact: pain-windows-x86_64.zip
+            binary: pain.exe
           - os: macos-latest
-            artifact: pain-compiler-macos-x86_64.tar.gz
-            binary: pain-compiler
+            artifact: pain-macos-x86_64.tar.gz
+            binary: pain
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
