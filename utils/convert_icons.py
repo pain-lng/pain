@@ -60,10 +60,20 @@ def _collect_sources(png_dir: Path, base_name: str):
 
 def create_ico_from_pngs(png_dir: Path, output_path: Path, base_name: str):
     """Create ICO file from multiple PNG sizes."""
+    print(f"  Looking for PNG files in: {png_dir}")
+    print(f"  Base name: {base_name}")
     source_images = _collect_sources(png_dir, base_name)
     if not source_images:
-        print(f"Warning: No PNG files found for {base_name}, skipping ICO")
+        print(f"ERROR: No PNG files found for {base_name} in {png_dir}")
+        print(f"  Expected pattern: {base_name}_*x*.png or {base_name}.png")
+        if png_dir.exists():
+            print(f"  Directory exists. Contents:")
+            for item in png_dir.iterdir():
+                print(f"    - {item.name}")
+        else:
+            print(f"  Directory does not exist!")
         return False
+    print(f"  Found {len(source_images)} PNG source(s): {sorted(source_images.keys())}")
     entries = []
     sorted_sizes = sorted(source_images)
     largest = sorted_sizes[-1]
@@ -199,14 +209,24 @@ def main():
     for config in icon_configs:
         print(f"\nProcessing {config['label']} icons...")
         linux_dir = config["linux"]
+        print(f"  Linux icons directory: {linux_dir}")
+        print(f"  Directory exists: {linux_dir.exists()}")
         if not linux_dir.exists():
-            print(f"Warning: Linux icons directory not found: {linux_dir}")
-            print("Warning: Skipping this icon set")
-            continue
+            print(f"ERROR: Linux icons directory not found: {linux_dir}")
+            print(f"  Absolute path: {linux_dir.resolve()}")
+            print("ERROR: Skipping this icon set")
+            sys.exit(1)
 
         for target in config.get("windows", []):
             target.parent.mkdir(parents=True, exist_ok=True)
-            create_ico_from_pngs(linux_dir, target, config["base"])
+            success = create_ico_from_pngs(linux_dir, target, config["base"])
+            if not success:
+                print(f"ERROR: Failed to create {target}")
+                sys.exit(1)
+            if not target.exists():
+                print(f"ERROR: Icon file was not created: {target}")
+                sys.exit(1)
+            print(f"Verified: {target} exists ({target.stat().st_size} bytes)")
 
         for target in config.get("macos", []):
             target.parent.mkdir(parents=True, exist_ok=True)
