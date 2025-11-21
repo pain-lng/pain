@@ -36,7 +36,9 @@ jobs:
         with:
           submodules: true
 
-      - name: Verify submodules
+      - name: Verify submodules (Unix)
+        if: runner.os != 'Windows'
+        shell: bash
         run: |
           echo "Checking submodules..."
           if [ -d "pain-compiler" ]; then
@@ -53,6 +55,34 @@ jobs:
             echo "ERROR: pain-lsp submodule not found"
             exit 1
           fi
+
+      - name: Verify submodules (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          Write-Host "Checking submodules..."
+          if (Test-Path "pain-compiler") {
+            Write-Host "pain-compiler exists"
+            if (Test-Path "pain-compiler/resources/icons/linux") {
+              Get-ChildItem "pain-compiler/resources/icons/linux" | Format-Table
+            } else {
+              Write-Host "ERROR: pain-compiler icons directory not found"
+            }
+          } else {
+            Write-Host "ERROR: pain-compiler submodule not found"
+            exit 1
+          }
+          if (Test-Path "pain-lsp") {
+            Write-Host "pain-lsp exists"
+            if (Test-Path "pain-lsp/resources/icons/linux") {
+              Get-ChildItem "pain-lsp/resources/icons/linux" | Format-Table
+            } else {
+              Write-Host "ERROR: pain-lsp icons directory not found"
+            }
+          } else {
+            Write-Host "ERROR: pain-lsp submodule not found"
+            exit 1
+          }
 
       - name: Update version from tag
         if: github.ref_type == 'tag'
