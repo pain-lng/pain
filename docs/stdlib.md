@@ -106,6 +106,40 @@ See [`examples.md`](examples.md) for complete class examples.
 | --- | --- | --- |
 | `print` | `fn print(value: dynamic) -> dynamic` | Sends textual representation to stdout |
 
+## PML (Pain Markup Language)
+
+PML is a minimalistic declarative data format for configurations, UI structures, and tree data. PML files use tab-based indentation and support SCALAR, MAP, and LIST node types.
+
+| Function | Signature | Description |
+| --- | --- | --- |
+| `pml_load_file` | `fn pml_load_file(path: str) -> dynamic` | Loads and parses a PML file, returns parsed tree as dynamic object |
+| `pml_parse` | `fn pml_parse(source: str) -> dynamic` | Parses PML string, returns parsed tree as dynamic object |
+
+**Example:**
+```pain
+fn main():
+    # Load PML file
+    let config = pml_load_file("config.pml")
+    let app_name = config.app.name
+    let port = config.app.port
+    
+    # Parse PML string
+    let pml_source = "title: \"Hello\"\nwidth: 400"
+    let doc = pml_parse(pml_source)
+    let title = doc.title
+```
+
+**PML File Example (config.pml):**
+```pml
+app:
+	name: "My Application"
+	version: "1.0.0"
+	debug: false
+	port: 8080
+```
+
+See [`PML_SPEC.md`](PML_SPEC.md) for complete PML syntax specification and [`examples_pml.md`](examples_pml.md) for more usage examples.
+
 ## Extending the Stdlib
 
 1. Modify `pain-compiler/src/stdlib.rs`.

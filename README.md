@@ -47,6 +47,7 @@ A modern, high-performance programming language designed for scientific computin
 - **String functions**: `len`, `concat`, `substring`, `contains`, `starts_with`, `ends_with`, `trim`, `to_int`, `to_float`, `to_string`
 - **List/Array functions**: `len` (indexing and literals supported)
 - **I/O functions**: `print`
+- **PML (Pain Markup Language)**: `pml_load_file`, `pml_parse` - Load and parse PML configuration files
 
 ## Installation
 
@@ -117,6 +118,28 @@ fn main():
     print(sum)
 ```
 
+### PML (Pain Markup Language) Example
+
+PML is a minimalistic declarative data format for configurations and UI structures:
+
+**config.pml:**
+```pml
+app:
+	name: "My App"
+	version: "1.0.0"
+	debug: false
+```
+
+**main.pain:**
+```pain
+fn main():
+    let config = pml_load_file("config.pml")
+    let app_name = config.app.name
+    print("Starting " + app_name)
+```
+
+See [`docs/PML_SPEC.md`](docs/PML_SPEC.md) for complete PML documentation.
+
 ## Project Structure
 
 This is a workspace containing multiple crates:
@@ -132,6 +155,8 @@ This is a workspace containing multiple crates:
   - [`docs/quickstart.md`](docs/quickstart.md) – installation, running programs, `painpkg`.
   - [`docs/stdlib.md`](docs/stdlib.md) – summary of built-in APIs.
   - [`docs/examples.md`](docs/examples.md) – ready-to-run snippets.
+  - [`docs/PML_SPEC.md`](docs/PML_SPEC.md) – PML (Pain Markup Language) specification.
+  - [`docs/examples_pml.md`](docs/examples_pml.md) – PML usage examples.
   - [`docs/JIT_SETUP.md`](docs/JIT_SETUP.md) – JIT compilation setup guide.
 - Generate fresh API docs from source:
 
