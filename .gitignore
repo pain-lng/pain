@@ -47,3 +47,8 @@ hello.pain
 utils/__pycache__/
 utils/*.pyc
 
+# Development tasks tracking (local only)
+TASKS.MD
+TASKS.md
+tasks.md
+
