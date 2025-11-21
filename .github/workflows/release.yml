@@ -39,18 +39,20 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Build release binary
-        run: cargo build --release -p pain-compiler
+      - name: Build release binaries
+        run: |
+          cargo build --release -p pain-compiler
+          cargo build --release -p pain-lsp
 
       - name: Package (Unix)
         if: runner.os != 'Windows'
         run: |
-          tar -czf ${{ matrix.artifact }} -C target/release ${{ matrix.binary }}
+          tar -czf ${{ matrix.artifact }} -C target/release ${{ matrix.binary }} pain-lsp
 
       - name: Package (Windows)
         if: runner.os == 'Windows'
         run: |
-          Compress-Archive -Path "target\release\${{ matrix.binary }}" -DestinationPath "${{ matrix.artifact }}"
+          Compress-Archive -Path "target\release\${{ matrix.binary }}","target\release\pain-lsp.exe" -DestinationPath "${{ matrix.artifact }}"
 
       - name: Upload artifact (branches)
         if: github.ref_type != 'tag'
