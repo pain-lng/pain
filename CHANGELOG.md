@@ -5,6 +5,52 @@ All notable changes to the Pain programming language will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2025-01-XX
+
+### Added
+
+#### PML (Pain Markup Language) v0.1
+- **PML Parser** - Complete lexer and parser implementation for PML format
+  - Tab-based indentation parsing (1 TAB = 1 level)
+  - Support for SCALAR, MAP, and LIST node types
+  - Comment parsing with `#` syntax
+  - String, int, float, bool, and null value types
+  - Escape sequence support (`\n`, `\t`, `\r`, `\\`, `\"`, `\'`)
+  - Comprehensive error handling with detailed error messages
+- **PML Standard Library** - Runtime functions for PML integration
+  - `pml_load_file(path: str) -> dynamic` - Load and parse PML files
+  - `pml_parse(source: str) -> dynamic` - Parse PML strings
+- **PML Documentation** - Complete specification and examples
+  - PML v0.1 specification document (`docs/PML_SPEC.md`)
+  - PML examples and usage guide (`docs/examples_pml.md`)
+  - 40+ unit tests covering edge cases (Unicode, long strings, deep nesting, etc.)
+  - 5 integration tests for stdlib functions
+  - Performance benchmarks (10 benchmarks documented)
+
+#### VS Code Extension Enhancements
+- **PML Language Support** - Full syntax highlighting for `.pml` files
+  - TextMate grammar for PML syntax
+  - Language configuration for PML
+  - PML file association and recognition
+- **Custom File Icons** - Visual file type identification
+  - Custom PNG icons for `.pain` files
+  - Custom PNG icons for `.pml` files
+  - Icon theme configuration for VS Code/Cursor
+- **Extension Distribution** - Ready for VSIX distribution via repository
+
+### Changed
+- Improved error handling in PML parser with Display trait for `PmlParseError`
+- Enhanced code quality (clippy, fmt) - all checks passing
+- Performance profiling and analysis document created (`.pain_dev_docs/PML_PERFORMANCE.md`)
+
+### Testing
+- Expanded PML parser test coverage (40 unit tests)
+- Added PML integration tests (5 tests for stdlib functions)
+- Edge case testing (15+ edge cases: Unicode, long strings, deep nesting, etc.)
+- Performance benchmarking suite (10 benchmarks)
+
+[0.2.0]: https://github.com/pain-lng/pain/releases/tag/v0.2.0
+
 ## [0.1.0] - 2025-11-20
 
 ### Added
