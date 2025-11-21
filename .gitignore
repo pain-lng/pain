@@ -43,3 +43,7 @@ hello.pain
 # Debug
 *.pdb
 
+# Local utils
+utils/__pycache__/
+utils/*.pyc
+
