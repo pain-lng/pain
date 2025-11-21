@@ -133,9 +133,43 @@ cargo test -p pain-compiler --test integration_test
 cargo bench
 ```
 
-## 9. Next Steps
+## 9. Working with PML (Pain Markup Language)
+
+PML is a minimalistic declarative data format for configurations and UI structures. Create a PML file:
+
+**config.pml:**
+```pml
+app:
+	name: "My App"
+	version: "1.0.0"
+	debug: false
+```
+
+Load and use it in Pain:
+
+```pain
+fn main():
+    let config = pml_load_file("config.pml")
+    let app_name = config.app.name
+    let version = config.app.version
+    print("Starting " + app_name + " v" + version)
+```
+
+Or parse PML from a string:
+
+```pain
+fn main():
+    let pml_source = "title: \"Hello\"\nwidth: 400"
+    let doc = pml_parse(pml_source)
+    print("Parsed PML successfully!")
+```
+
+See [`PML_SPEC.md`](PML_SPEC.md) for complete PML syntax and [`examples_pml.md`](examples_pml.md) for more examples.
+
+## 10. Next Steps
 
 - Explore API details in [`stdlib.md`](stdlib.md).
 - Copy ready-to-run snippets from [`examples.md`](examples.md).
+- Learn about PML in [`PML_SPEC.md`](PML_SPEC.md) and [`examples_pml.md`](examples_pml.md).
 - Use the LSP server (`pain-lsp`) inside VS Code for hover docs, completion, and diagnostics.
 
