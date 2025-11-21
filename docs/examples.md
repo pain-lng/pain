@@ -1,7 +1,7 @@
 # Example Programs
 
 Use these snippets as starting points for demos, regression tests, or onboarding new users.  
-Every example is self-contained; copy into `examples/*.pain` and run with `pain-compiler run`.
+Every example is self-contained; copy into `examples/*.pain` and run with `pain run`.
 
 ## 1. I love Pain
 
@@ -13,7 +13,7 @@ fn main():
 Run:
 
 ```bash
-pain-compiler run --input examples/hello.pain
+pain run --input examples/hello.pain
 ```
 
 ## 2. Fibonacci (Iterative)
@@ -103,10 +103,10 @@ Exercise parsing, type checking, IR, optimization, and codegen:
 
 ```bash
 # LLVM IR
-pain-compiler build --input examples/sum.pain --backend llvm --output sum.ll
+pain build --input examples/sum.pain --backend llvm --output sum.ll
 
 # MLIR
-pain-compiler build --input examples/sum.pain --backend mlir --output sum.mlir
+pain build --input examples/sum.pain --backend mlir --output sum.mlir
 ```
 
 ## 6. painpkg Workspace

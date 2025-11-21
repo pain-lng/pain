@@ -92,10 +92,10 @@ y: int = 20
 
 ```bash
 # Generate LLVM IR
-pain-compiler build --input examples/hello.pain --backend llvm --output hello.ll
+pain build --input examples/hello.pain --backend llvm --output hello.ll
 
 # Run full pipeline with optimizations
-pain-compiler build --input examples/loop.pain --opt-level 2
+pain build --input examples/loop.pain --opt-level 2
 ```
 
 ## 7. Package Management (`painpkg`)
