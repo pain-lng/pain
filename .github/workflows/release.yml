@@ -22,14 +22,14 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            artifact: pain-compiler-linux-x86_64.tar.gz
-            binary: pain-compiler
+            artifact: pain-linux-x86_64.tar.gz
+            binary: pain
           - os: windows-latest
-            artifact: pain-compiler-windows-x86_64.zip
-            binary: pain-compiler.exe
+            artifact: pain-windows-x86_64.zip
+            binary: pain.exe
           - os: macos-latest
-            artifact: pain-compiler-macos-x86_64.tar.gz
-            binary: pain-compiler
+            artifact: pain-macos-x86_64.tar.gz
+            binary: pain
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,18 +39,29 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: Build release binary
-        run: cargo build --release -p pain-compiler
+      - name: Install Python dependencies (for icon conversion)
+        run: |
+          python -m pip install --upgrade pip
+          pip install Pillow
+
+      - name: Generate icon files
+        run: |
+          python utils/convert_icons.py
+
+      - name: Build release binaries
+        run: |
+          cargo build --release -p pain-compiler
+          cargo build --release -p pain-lsp
 
       - name: Package (Unix)
         if: runner.os != 'Windows'
         run: |
-          tar -czf ${{ matrix.artifact }} -C target/release ${{ matrix.binary }}
+          tar -czf ${{ matrix.artifact }} -C target/release ${{ matrix.binary }} pain-lsp
 
       - name: Package (Windows)
         if: runner.os == 'Windows'
         run: |
-          Compress-Archive -Path "target\release\${{ matrix.binary }}" -DestinationPath "${{ matrix.artifact }}"
+          Compress-Archive -Path "target\release\${{ matrix.binary }}","target\release\pain-lsp.exe" -DestinationPath "${{ matrix.artifact }}"
 
       - name: Upload artifact (branches)
         if: github.ref_type != 'tag'
