@@ -119,6 +119,12 @@ jobs:
       - name: Run unit tests
         run: cargo test --lib --verbose
       
+      - name: Run LSP tests
+        run: |
+          cd pain-lsp
+          cargo test --tests --verbose
+        continue-on-error: false
+      
       - name: Run integration tests
         run: cargo test --test integration_test --verbose
       
@@ -139,6 +145,7 @@ jobs:
         run: |
           echo "## Test Results for ${{ matrix.os }}" >> $GITHUB_STEP_SUMMARY
           echo "- Unit tests: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
+          echo "- LSP tests: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
           echo "- Integration tests: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
           echo "- Full pipeline tests: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
           echo "- Property-based tests: ${{ job.status }}" >> $GITHUB_STEP_SUMMARY
