@@ -85,6 +85,8 @@ cargo run --bin pain -- build --input file.pain --executable -o file.exe   # nat
   compare the output.
 - `*.pain` files are git-ignored everywhere except `benches/pain/`. Put test programs
   into Rust tests as strings, not into loose files.
+- A program may span several files: `import module: name, name` at the top of a
+  file, `pub fn` / `pub class` to export. One form only; see `pain-compiler/AGENTS.md`.
 - Objects are created with `new Name(args)`; arguments fill the fields in declaration
   order. There is no `fn new` constructor: `new` is a keyword.
 - The type checker does not convert implicitly: `int` is not accepted where `float64`

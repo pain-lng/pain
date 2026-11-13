@@ -119,3 +119,51 @@ painpkg run
 
 Uses the package manager to scaffold, resolve dependencies, and execute the entrypoint.
 
+## Modules
+
+A program can be split into files. A module is a file; `import` lists the names it
+takes from a module, and only items marked `pub` can be imported.
+
+`combat.pain`:
+
+```pain
+pub class Unit:
+    let hp: int
+    let attack: int
+
+pub fn strike(attacker: Unit, seed: int) -> int:
+    return clamp(attacker.attack + seed, 1, 99)
+
+fn clamp(value: int, low: int, high: int) -> int:
+    if value < low:
+        return low
+    if value > high:
+        return high
+    return value
+```
+
+`main.pain`:
+
+```pain
+import combat: strike, Unit
+
+fn main() -> int:
+    var knight = new Unit(40, 9)
+    return strike(knight, 5)
+```
+
+Rules:
+
+- There is one import form: `import module: name, name`. Every imported name is
+  listed; there are no wildcards and no aliases.
+- `import ai.target: pick` reads `ai/target.pain`. Paths start at the directory of
+  the file you run, or at `src/` inside a package with `pain.toml`.
+- Imports come first in a file, before functions and classes.
+- `clamp` above has no `pub`, so it is private: importing it is an error, and
+  another file may define its own `clamp`.
+- Import cycles are errors.
+
+```bash
+pain run --input main.pain                       # loads combat.pain as well
+pain query callers strike --input main.pain      # call sites in every file
+```
