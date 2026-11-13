@@ -65,8 +65,8 @@ cargo run --bin pain -- build --input file.pain --executable -o file.exe   # nat
   tests and the parser disagree, the parser is the reference; ask before changing it.
 - Do not change the core architecture, the IR format or public APIs unless the task
   says so. Propose optimizations; implement them only when asked.
-- One responsibility per change, with tests. Keep diffs small (aim for under ~300
-  lines); split larger work.
+- One responsibility per commit, with tests. There is no line limit on a change;
+  split it into commits that can be reviewed one by one.
 - Do not restructure the repository or add stray files. Avoid `unsafe` Rust unless
   it is necessary.
 - If the task is unclear, ask.
