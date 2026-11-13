@@ -47,11 +47,6 @@ Demonstrates loops, mutation, and return values.
 class Counter:
     let value: int
 
-    fn new(start: int) -> Counter:
-        let c = Counter()
-        c.value = start
-        return c
-
     fn increment():
         self.value = self.value + 1
 
@@ -59,13 +54,13 @@ class Counter:
         return self.value
 
 fn main() -> int:
-    let counter = Counter.new(0)
+    let counter = new Counter(0)
     counter.increment()
     counter.increment()
     return counter.get()
 ```
 
-Shows class fields, methods, and constructors.
+Shows class fields, methods, and object creation: `new Counter(0)` fills the fields in declaration order.
 
 ## 4. Lists and Arrays
 

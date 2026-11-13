@@ -95,12 +95,12 @@ fn main() -> int:
     
     # Try to use compiled binary first, fallback to cargo run
     exe_ext = ".exe" if platform.system() == "Windows" else ""
-    exe_path = Path(f"target/release/pain-compiler{exe_ext}")
+    exe_path = Path(f"target/release/pain{exe_ext}")
     if not exe_path.exists():
-        exe_path = Path(f"target/debug/pain-compiler{exe_ext}")
+        exe_path = Path(f"target/debug/pain{exe_ext}")
     
     cmd = [str(exe_path.absolute()), "run", "--input", str(source_file.absolute())] if exe_path.exists() else [
-        "cargo", "run", "--release", "--bin", "pain-compiler", "--",
+        "cargo", "run", "--release", "--bin", "pain", "--",
         "run", "--input", str(source_file.absolute())
     ]
     
